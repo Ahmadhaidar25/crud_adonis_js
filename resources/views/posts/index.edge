@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <meta
+      name="author"
+      content="Mark Otto, Jacob Thornton, and Bootstrap contributors"
+    />
+    <meta name="generator" content="Hugo 0.72.0" />
+    <title>Crud Apps</title>
+
+    <link
+      rel="canonical"
+      href="https://v5.getbootstrap.com/docs/5.0/examples/album/"
+    />
+    <link
+      rel="stylesheet"
+      href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"
+    />
+
+    <!-- Bootstrap core CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
+      integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"
+      integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <div class="navbar navbar-dark bg-dark shadow-sm">
+        <div class="container">
+          <a href="#" class="navbar-brand d-flex align-items-center">
+            <strong>CRUD AdonisJs</strong>
+          </a>
+
+          <a href="#" class="navbar-brand d-flex align-items-center">
+            <strong>Selamat Datang&nbsp;: {{ user.username }}</strong>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+        @if(flashMessage('notification'))
+        <div class="alert alert-success">
+          {{ flashMessage("notification") }}
+        </div>
+        @endif
+        <div class="card mt-3">
+          <div class="card-header">
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
+            >
+              Tambah
+            </button>
+            <a
+              href="{{ route('logout') }}"
+              class="btn btn-danger btn1"
+              style="float: right"
+              >Logout</a
+            >
+          </div>
+          <div class="card-body">
+            <table class="table" id="table">
+              <tr>
+                <th>Nama Produk</th>
+                <th>Qty</th>
+                <th>Harga</th>
+                <th>Deskripsi</th>
+                <th>Aksi</th>
+              </tr>
+              <script>
+                var no = 1;
+              </script>
+              @each(post in posts)
+              <tr>
+                <td>{{ post.nama_produk }}</td>
+                <td>{{ post.qty }}</td>
+                <td>{{ post.harga }}</td>
+                <td>{{ post.deskripsi }}</td>
+                <td>
+                  <a
+                    href="{{ route('post.edit', { id: post.id }) }}"
+                    class="btn btn-warning"
+                    >Edit</a
+                  >
+                  <a
+                    href="{{ route('post.delete', { id: post.id }) }}"
+                    class="btn btn-danger btn2"
+                    >Hapus</a
+                  >
+                </td>
+              </tr>
+              @endeach
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Tambah Data</h5>
+          </div>
+          <form action="{{ route('/post/data') }}" method="post">
+            <div class="modal-body">
+              {{ csrfField() }}
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label"
+                  >Nama Produk</label
+                >
+                <input type="text" class="form-control" name="nama_produk" />
+              </div>
+
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label"
+                  >Qty</label
+                >
+                <input type="number" class="form-control" name="qty" />
+              </div>
+
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label"
+                  >Harga</label
+                >
+                <input type="text" class="form-control" name="harga" />
+              </div>
+
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label"
+                  >Deskripsi</label
+                >
+                <input type="text" class="form-control" name="deskripsi" />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"
+  ></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $("#table").DataTable();
+    });
+
+    $(".btn2").click(function (e) {
+      e.preventDefault();
+      var hapus = $(this).attr("href");
+      Swal.fire({
+        title: "Yakin",
+        text: "Data akan di hapus",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location = hapus;
+          swal({
+            title: "Red Alert!",
+            text: "I will close in 4 seconds.",
+            timer: 4000,
+          });
+        }
+      });
+    });
+
+    $(".btn1").click(function (e) {
+      e.preventDefault();
+      var logout = $(this).attr("href");
+      Swal.fire({
+        title: "Yakin",
+        text: "Keluar dari aplikasi",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location = logout;
+        }
+      });
+    });
+  </script>
+</html>
